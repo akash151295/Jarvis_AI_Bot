@@ -17,8 +17,7 @@ This project covers basic to advance functionalities automated using AI voice as
 -- B) Get latest news headlines (Command - Can you please tell me today's news healines) <br />
 -- C) Get latest news about any topic (Command - Can you please tell me latest news about any perticular topic) <br />
 
-**Devopement for upcoming features -- WIP** <br />
-
+**Devopement for upcoming features -- WIP** 
 **Steps to run the Jarvis application --** <br />
 1) Download Jarvis2.1 application from github repo.  <br />
 2) Double click on it, cmd will be opened <br />
