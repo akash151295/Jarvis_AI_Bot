@@ -19,6 +19,14 @@ This project covers basic to advance functionalities automated using AI voice as
 
 **Devopement for upcoming features -- WIP** <br />
 
+**Steps to run the Jarvis application --** <br />
+1) Download Jarvis2.1 application from github repo.  <br />
+2) Double click on it, cmd will be opened <br />
+3) Wait for AI to listen you (Listen.. text will be shown on cmd) <br />
+4) Speak any commands as mentioned in Basic Features/Advance Features section <br />
+5) Enjoy to intereact with Jarvis.. <br />
+6) Note - Tell Jarvis(AI Bot) to go offile in case you want to quit the execution.
+
 
 
 
