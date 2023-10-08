@@ -3,8 +3,8 @@ This project covers basic to advance functionalities automated using AI voice as
 
 **-- Below features covered till yet:**
 
--- **1) Basic Features**
--- A) Change AI voice from Male to Female (Command - Can you please change your voice)
+-- **1) Basic Features** <br />
+-- A) Change AI voice from Male to Female (Command - Can you please change your voice) <br />
 -- B) Todays date/time (Command - Can you please tell me todays date / Can you please tell me current time)
 -- C) Open my document directory (Command - Can you please open my document)
 -- D) Search something on google (Command - Can you search something on google / Can you search cricket on google)
