@@ -16,8 +16,8 @@ This project covers basic to advance functionalities automated using AI voice as
 -- A) Get weather Updates using voice assitance (Command - Can you please give me weather updates ? --> Noida) <br />
 -- B) Get latest news headlines (Command - Can you please tell me today's news healines) <br />
 -- C) Get latest news about any topic (Command - Can you please tell me latest news about any perticular topic) <br />
+-- D) Send Email to any email ID (Command - Can you please send email) <br />
 
-**Developement for upcoming features -- WIP** <br /> <br />
 **Steps to run the Jarvis application --** <br />
 1) Download Jarvis2.1 application from github repo.  <br />
 2) Double click on it, cmd will be opened <br />
