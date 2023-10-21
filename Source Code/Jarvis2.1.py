@@ -4,11 +4,14 @@ import speech_recognition as sr
 import os
 import webbrowser as wb
 import pywhatkit
-import time
 import weatherAPI
 import pyjokes
 from newsapi import NewsApiClient
 import time
+import smtplib
+from secrets import sender_email, sender_pwd, to_email
+from email.message import EmailMessage
+
 
 engine = pyttsx3.init()
 
@@ -22,6 +25,7 @@ volume = str(engine.getProperty('volume'))
 engine.setProperty('volume', 1.0)
 
 def userQuestions(user_txt):
+    print("this is user text", user_txt)
     if 'change voice' in user_txt or 'change' in user_txt or 'voice' in user_txt:
         setAIVoiceType(user_txt)
         engine.say("Please let me know in case you want me to help on any other topic !!")
@@ -34,12 +38,12 @@ def userQuestions(user_txt):
         getcurrentDate()
         engine.say("Please let me know in case you want me to help on any other topic !!")
         engine.runAndWait()
-    elif 'open' in user_txt or 'open' in user_txt:
+    elif 'open document' in user_txt or 'document' in user_txt or 'directory' in user_txt:
         openDocument(user_txt)
         time.sleep(5)
         engine.say("Please let me know in case you want me to help on any other topic !!")
         engine.runAndWait()
-    elif 'search' in user_txt or 'google' in user_txt:
+    elif 'search' in user_txt or 'google' in user_txt or 'Google' in user_txt:
         googleSearch()
         time.sleep(5)
         engine.say("Please let me know in case you want me to help on any other topic !!")
@@ -68,7 +72,7 @@ def userQuestions(user_txt):
         engine.say("Can you Please tell me the city name ?")
         engine.runAndWait()
         City = takeVoiceCommand()
-        temperature, feelsLike_temperature, humidity, grnd_level, City_NotFound = weatherAPI.getweather(City, 'a856f37654e904929fcb858c09499991')
+        temperature, feelsLike_temperature, humidity, grnd_level, City_NotFound = weatherAPI.getweather(City, 'YOUR API KEY')
         engine.say(f"{City} weather is {'%.f' % temperature} degree C but it feels like {'%.f' % feelsLike_temperature} degree Celcius.")
         engine.runAndWait()
         engine.say(f"{City} humidity is {humidity} gram per cubic meter")
@@ -83,14 +87,27 @@ def userQuestions(user_txt):
         time.sleep(2)
         engine.say("Please let me know in case you want me to help on any other topic !!")
         engine.runAndWait()
-    elif '' in user_txt or ' ' in user_txt:
-        time.sleep(15)
-        engine.say("It seems you dont have any questions for me. Please let me know any topic where i can help you or you can say go offline, so that i can go for sleep")
+    elif user_txt == '' or user_txt == ' ':
+        engine.say("Sorry Unable to Recognize you Can you please repeat your query sir ?")
         engine.runAndWait()
-    elif 'No' in user_txt or 'Thanks You' in user_txt:
+    elif 'No' in user_txt or 'Thanks You' in user_txt or 'no' in user_txt or 'Thank You' in user_txt:
         engine.say("Thanks you !! I am going for sleep now !! Good Night !!")
         engine.runAndWait()
         quit()
+    elif 'send email' in user_txt or 'send mail' in user_txt or 'email' in user_txt or 'mail' in user_txt:
+        speak("Okay sir can you please type the email ID of the person which you wants to drop a mail?")
+        Reciever_EmailID = getCMDText()
+        speak("Okay sir can you please tell me the email subject content?")
+        Email_Subject = takeVoiceCommand()
+        speak("Okay sir can you please tell me the email body content?")
+        EmailBody = takeVoiceCommand()
+        time.sleep(5)
+        speak("Okay sir let me drop a mail as per your request")
+        sendEmail(Reciever_EmailID, EmailBody, Email_Subject)
+        # Reciever_EmailID, EmailBody, Email_Subject
+        speak("Mail sent sir!!")
+        time.sleep(5)
+        speak("Please let me know in case you want me to help on any other topic !!")
     else:
         engine.say("Sorry currently I am not trained to do this!!")
         engine.runAndWait()
@@ -138,8 +155,9 @@ def getCMDText():
 
 
 def speak_initalNotes():
-    engine.say(f'''Hey !! 
-               I am your AI bot!!
+    greetings()
+    # wishme()
+    engine.say(f'''I am your AI bot!!
                Please let me know how can I help you ??
                ''')
     engine.runAndWait()
@@ -183,11 +201,9 @@ def takeVoiceCommand():
         print("Recognizing...")
         query = r.recognize_google(audio, language="en-IN")
         print(query)
-    except  Exception as e:
+    except Exception as e:
         print(e)
-        # engine.say("Sorry Can you please say again ?")
-        # engine.runAndWait()
-        return "Seems like you dont have other questions or your questions are not in my scope !! "
+        return " "
     return query
 
 
@@ -262,18 +278,46 @@ def getLatestNews():
     engine.say("Thats it for now. Thank you !!")
     engine.runAndWait()
 
+def speak(text):
+    engine.say(text)
+    engine.runAndWait()
+
+def greetings():
+    hour = datetime.datetime.now().hour
+    if hour >= 3 and hour < 12:
+        speak("Good Morning Sir !!")
+    elif hour > 24 and hour <= 8:
+        speak("Good Morning Sir !!")
+    elif  hour >= 12 and hour <= 15:
+        speak("Good Afternoon Sir !!")
+    elif  hour > 15 and hour <= 20:
+        speak("Good Evening Sir !!")
+    elif  hour > 20 and hour <=24:
+        speak("Good Night Sir !!")
+    else:
+        speak("Code issue !!")
+    # speak(f"Current Time is {hour} hour.")
+
+def wishme():
+    getcurrentDate()
+    getcurrentTime()
+
+def sendEmail(Reciever_EmailID, EmailBody, Email_Subject):
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(sender_email, sender_pwd)
+    # server.sendmail(sender_email, Reciever_EmailID, EmailBody)
+    email_dic = EmailMessage()
+    email_dic['From'] = sender_email
+    email_dic['To'] = Reciever_EmailID
+    email_dic['Subject'] = Email_Subject
+    email_dic.set_content(EmailBody)
+    server.send_message(email_dic)
+    server.close()
+
 
 # Questions Scope - Change voice, tell today date, tell current time, open my documents, search on google
 
-# def Hello():
-#     gender = getAIVoiceType()
-#     speak_initalNotes()
-#     # user_Question = getCMDText()
-#     user_Question = takeVoiceCommand()
-#     # speak_userTextFromCMD(user_Question)
-#     speak_userTextFromAudio(user_Question)
-#     # print(user_Question)
-#     userQuestions(user_Question)
 
 def Hello():
     gender = getAIVoiceType()
