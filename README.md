@@ -11,6 +11,7 @@ This project covers basic to advance functionalities automated using AI voice as
 -- E) Open youtube and play something (Command - Can you play any vedio on youtube / Can you play cricket vedios on youtube) <br />
 -- F) Tell me some jokes (Command - Tell me some joke) <br />
 -- G) Go offile or stop AI (Command - Can you pleae go offile) <br />
+-- H) Wish me function based on time frame <br />
 
 -- **2) Advance Features covered with API integration** <br />
 -- A) Get weather Updates using voice assitance (Command - Can you please give me weather updates ? --> Noida) <br />
