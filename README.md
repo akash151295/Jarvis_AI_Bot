@@ -18,6 +18,11 @@ This project covers basic to advance functionalities automated using AI voice as
 -- B) Get latest news headlines (Command - Can you please tell me today's news healines) <br />
 -- C) Get latest news about any topic (Command - Can you please tell me latest news about any perticular topic) <br />
 -- D) Send Email to any email ID (Command - Can you please send email) <br />
+-- E) Start any desktop application by voice command.(Command - Can you please help me to start application) <br />
+-- F) Take Screenshot by voice command.(Command - Can you please take screenshot) <br />
+-- G) Read PDF or Website text using voice.(Command - Can you please read text) <br />
+-- H) Send email by contact name.(Command - Can you please send email) <br />
+-- I) Send whatsapp message by contact name.(Command - Can you please send whatsapp message) <br />
 
 **Steps to run the Jarvis application --** <br />
 1) Download Jarvis2.1 application from github repo.  <br />
