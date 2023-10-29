@@ -2,7 +2,6 @@ import pyttsx3
 import datetime
 import speech_recognition as sr
 import os
-import webbrowser as wb
 import pywhatkit
 import weatherAPI
 import pyjokes
@@ -11,6 +10,10 @@ import time
 import smtplib
 from secrets import sender_email, sender_pwd, to_email
 from email.message import EmailMessage
+import pyautogui
+import webbrowser as wb
+import clipboard
+import time as tt
 
 
 engine = pyttsx3.init()
@@ -90,24 +93,79 @@ def userQuestions(user_txt):
     elif user_txt == '' or user_txt == ' ':
         engine.say("Sorry Unable to Recognize you Can you please repeat your query sir ?")
         engine.runAndWait()
-    elif 'No' in user_txt or 'Thanks You' in user_txt or 'no' in user_txt or 'Thank You' in user_txt:
+    elif 'Thanks You' in user_txt or 'Thank You' in user_txt:
         engine.say("Thanks you !! I am going for sleep now !! Good Night !!")
         engine.runAndWait()
         quit()
     elif 'send email' in user_txt or 'send mail' in user_txt or 'email' in user_txt or 'mail' in user_txt:
-        speak("Okay sir can you please type the email ID of the person which you wants to drop a mail?")
-        Reciever_EmailID = getCMDText()
+        # speak("Okay sir can you please type the email ID of the person which you wants to drop a mail?")
+        # Reciever_EmailID = getCMDText()
+        Reciever_EmailID = {
+            'akash': 'akash151295@gmail.com',
+            'Aakash': 'akash151295@gmail.com',
+            'kannu': 'kannuchaudhary518@gmail.com',
+            'Kannu': 'kannuchaudhary518@gmail.com',
+            'no': 'kannuchaudhary518@gmail.com',
+            'ullu': 'kannuchaudhary518@gmail.com',
+            'Kaniskha': 'kannuchaudhary518@gmail.com',
+            'Kanishka': 'kannuchaudhary518@gmail.com'
+        }
+
+        speak("Okay sir can you please tell me the name of the person which you wants to drop a mail?")
+        user_inputForMail = takeVoiceCommand()
+        Reciever_EmailID = Reciever_EmailID[user_inputForMail]
+
         speak("Okay sir can you please tell me the email subject content?")
         Email_Subject = takeVoiceCommand()
         speak("Okay sir can you please tell me the email body content?")
         EmailBody = takeVoiceCommand()
-        time.sleep(5)
+        time.sleep(2)
         speak("Okay sir let me drop a mail as per your request")
         sendEmail(Reciever_EmailID, EmailBody, Email_Subject)
         # Reciever_EmailID, EmailBody, Email_Subject
         speak("Mail sent sir!!")
         time.sleep(5)
         speak("Please let me know in case you want me to help on any other topic !!")
+    elif 'send message' in user_txt or 'send whatsapp message' in user_txt or 'whatsapp' in user_txt or 'Send whatsapp' in user_txt or 'send WhatsApp message' in user_txt or 'send WhatsApp' in user_txt or 'WhatsApp message' in user_txt or 'WhatsApp' in user_txt:
+        Reciever_PhoneNumber = {
+            'akash': '+91 97603 27132',
+            'Aakash': '+91 97603 27132',
+            'Kaniskha': '+91 63987 56633',
+            'Kanishka': '+91 63987 56633',
+            'Anushka': '+91 639875 6633'
+        }
+        try:
+            speak("Okay sir can you please tell me the name of the person which you wants to send whatsapp message?")
+            user_inputForMessage = takeVoiceCommand()
+            Reciever_PhoneNumber = Reciever_PhoneNumber[user_inputForMessage]
+
+            speak("Okay sir can you please tell me what message you wants to send")
+            Message_Content = takeVoiceCommand()
+
+            time.sleep(2)
+            speak("Okay sir let me drop a message as per your request")
+            sendWhatsAppMsg(Reciever_PhoneNumber, Message_Content)
+            # Reciever_EmailID, EmailBody, Email_Subject
+            speak("Whatsapp message sent sir!!")
+        except Exception as e:
+            print(e)
+            speak("Sorry unable to send message")
+        time.sleep(5)
+        speak("Please let me know in case you want me to help on any other topic !!")
+    elif 'read text' in user_txt or 'Read text' in user_txt or 'Read Text' in user_txt:
+        readText()
+        time.sleep(5)
+        speak("Please let me know in case you want me to help on any other topic !!")
+    elif 'start application' in user_txt or 'application' in user_txt or 'start' in user_txt or 'Start' in user_txt or 'Application' in user_txt:
+        openDesktopApplication()
+        time.sleep(5)
+        speak("Please let me know in case you want me to help on any other topic !!")
+    elif 'screenshot' or 'Screenshot' in user_txt:
+        TakeScreenshot()
+    elif 'add note' or 'Add note' in user_txt:
+        addnote()
+    elif 'read note' or 'Read note' in user_txt:
+        readnote()
     else:
         engine.say("Sorry currently I am not trained to do this!!")
         engine.runAndWait()
@@ -315,6 +373,67 @@ def sendEmail(Reciever_EmailID, EmailBody, Email_Subject):
     server.send_message(email_dic)
     server.close()
 
+def sendWhatsAppMsg(phoneNumber, message):
+    Message = message
+    wb.open('https://web.whatsapp.com/send?phone='+phoneNumber+'&text='+Message)
+    time.sleep(10)
+    pyautogui.press('enter')
+    time.sleep(5)
+
+def readText():
+    speak("Have you already selected any text to read?")
+    ans = takeVoiceCommand()
+    if 'yes' in ans or 'Yes' in ans:
+        text = clipboard.paste()
+        print(text)
+        speak(text)
+    elif 'no' in ans or 'No' in ans:
+        speak("Please select the text to read, I will wait for 10 seconds!")
+        time.sleep(10)
+        text = clipboard.paste()
+        print(text)
+        speak(text)
+    else:
+        speak("Sorry something went wrong!!")
+
+def openDesktopApplication():
+    speak("Can you please tell me which application you want me to opem for you?")
+    applicationName_Usr = takeVoiceCommand()
+    if 'pycharm' in applicationName_Usr or 'Pycharm' in applicationName_Usr:
+        pycharm_Path = "C:\\Program Files\\JetBrains\\PyCharm Community Edition 2022.3.2\\bin\pycharm64.exe"
+        os.startfile(pycharm_Path)
+        time.sleep(5)
+        speak(f"{applicationName_Usr} is started sir!!")
+    elif 'Visual studio' in applicationName_Usr or 'visual studio' in applicationName_Usr or 'visual' in applicationName_Usr or 'Visual' in applicationName_Usr or 'studio' in applicationName_Usr or 'Studio' in applicationName_Usr:
+        vs_Path = "C:\\Users\\asus\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+        os.startfile(vs_Path)
+        time.sleep(5)
+        speak(f"{applicationName_Usr} is started sir!!")
+    else:
+        speak("Sorry something went wrong !!")
+
+def TakeScreenshot():
+    speak("Taking Screenshot Sir!!")
+    nameIMG = tt.time()
+    nameIMG = f'C:\\Users\\asus\\OneDrive\\Pictures\\JarvisSS\\${nameIMG}.png'
+    img = pyautogui.screenshot(nameIMG)
+    img.show()
+    speak("Screenshot has been taken and saved inside pictures folder with folder name as JarvisSS")
+
+def addnote():
+    speak("what you want me to add into your notes today ?")
+    note = takeVoiceCommand()
+    remember = open('data.txt', 'w')
+    remember.write(note)
+    remember.close()
+    speak("Added sir !!")
+
+def readnote():
+    speak("Below are you notes for Today!!")
+    remember = open('data.txt', 'r')
+    note = remember.read()
+    remember.close()
+    speak(note)
 
 # Questions Scope - Change voice, tell today date, tell current time, open my documents, search on google
 
